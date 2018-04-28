@@ -4,7 +4,7 @@ import os
 
 
 year = '2017'
-pos = 'RB'
+pos = 'WR'
 file = 'C:\\Users\\Ben\\PythonProjects\\football.analytics\\defense' + year + '.csv'
     
 
@@ -29,26 +29,29 @@ class DefenseFP:
         #drops the top level that isn't needed
         df.columns = df.columns.droplevel(0)
         #sets the index to teams
-        df.set_index(['Tm'])
+        df = df.set_index(['Tm'])
         #Rename columns
         #df.columns = ['Tm', 'G', 'Att', 'Ru-Yds', 'Ru-TD', 'Tgt', 'Rec', 'Rec-yds', 
         #      'Rec-TD', 'FantPt', 'DKPt', 'FDPt', 'FantPt', 'DKPt', 'DFPt']
-        
+        '''
         if not os.path.exists(file):
             
             df.to_csv(file)
-        
+        '''
         return df
     
 
     
         
     
-    def saveToFile(self, df):
+def saveToFile(df):
         
+    if not os.path.exists(file):
         df.to_csv(file)
         
-    
+
         
 rb = DefenseFP(year, pos)
-print(rb.getData().head())
+rb = rb.getData()
+saveToFile(rb)
+print(rb.head())

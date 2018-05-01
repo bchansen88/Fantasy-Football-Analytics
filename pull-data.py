@@ -4,12 +4,8 @@ import os
 
 
 year = '2017'
-pos = 'WR'
-file = 'C:\\Users\\Ben\\PythonProjects\\football.analytics\\defense' + year + '.csv'
-    
 
-
-class DefenseFP:
+class DefVsPos:
 
     def __init__(self, year, position):
         
@@ -29,7 +25,7 @@ class DefenseFP:
         #drops the top level that isn't needed
         df.columns = df.columns.droplevel(0)
         #sets the index to teams
-        df = df.set_index(['Tm'])
+        #df = df.set_index(['Tm'])
         #Rename columns
         #df.columns = ['Tm', 'G', 'Att', 'Ru-Yds', 'Ru-TD', 'Tgt', 'Rec', 'Rec-yds', 
         #      'Rec-TD', 'FantPt', 'DKPt', 'FDPt', 'FantPt', 'DKPt', 'DFPt']
@@ -39,19 +35,44 @@ class DefenseFP:
             df.to_csv(file)
         '''
         return df
-    
-
-    
-        
-    
+#function to save to csv file if file does not already exist 
 def saveToFile(df):
         
     if not os.path.exists(file):
-        df.to_csv(file)
+        df.to_csv(file, index = False)
         
+#initialize position variable
+#pos = ''
+#list to grab all positions
+all_pos = ['RB', 'TE', 'QB', 'WR']
+#file name structure for def vs pos csv files
+file = os.getcwd() + '\\collection\\defense_' + pos + '_' + year + '.csv'
 
+def selectPosition(pos):
+    
+    print('Select a position to pull: \n\
+                    1. Running Back \n\
+                    2. Tight End \n\
+                    3. Quarterback \n\
+                    4. Wide Receiver\n\
+                    5. All')
+    
+    pos = input()
+    
+    if pos == 1:
+        pos = 'RB'
         
-rb = DefenseFP(year, pos)
-rb = rb.getData()
-saveToFile(rb)
-print(rb.head())
+    elif pos == 2:
+        pos = 'TE'
+    
+    elif pos == 3:
+        pos = 'QB'
+        
+    elif pos == 4:
+        pos = 'WR'
+
+selectPosition(pos)           
+p = DefVsPos(year, pos)
+p = p.getData()
+saveToFile(p)
+print(p.head())
